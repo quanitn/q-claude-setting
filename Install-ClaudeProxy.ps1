@@ -2,6 +2,34 @@
 # Dung: chuot phai -> "Run with PowerShell"
 param([string]$CertSource = (Join-Path $PSScriptRoot 'ca_179.crt'))
 
+# Serialize JSON theo dinh dang chuan (2 space, "key": value) giong Claude Code
+function ConvertTo-StdJson($v, [int]$level = 0) {
+    $pad  = '  ' * $level
+    $pad1 = '  ' * ($level + 1)
+    if ($null -eq $v) { return 'null' }
+    if ($v -is [bool]) { return $v.ToString().ToLower() }
+    if ($v -is [string] -or $v -is [char]) {
+        $t = ConvertTo-Json -InputObject ([string]$v) -Compress
+        foreach ($c in 0x27,0x26,0x3c,0x3e) { $t = $t.Replace(('\u{0:x4}' -f $c), [string][char]$c) }
+        return $t
+    }
+    if ($v -is [datetime]) { return '"' + $v.ToUniversalTime().ToString("yyyy-MM-dd'T'HH:mm:ss.fff'Z'") + '"' }
+    if ($v -is [System.Collections.IDictionary] -or $v -is [System.Management.Automation.PSCustomObject]) {
+        $props = if ($v -is [System.Collections.IDictionary]) {
+            $v.Keys | ForEach-Object { [pscustomobject]@{ Name = $_; Value = $v[$_] } }
+        } else { $v.PSObject.Properties }
+        $items = @($props | ForEach-Object { $pad1 + (ConvertTo-StdJson ([string]$_.Name) 0) + ': ' + (ConvertTo-StdJson $_.Value ($level + 1)) })
+        if ($items.Count -eq 0) { return '{}' }
+        return "{`n" + ($items -join ",`n") + "`n$pad}"
+    }
+    if ($v -is [System.Collections.IEnumerable]) {
+        $items = @($v | ForEach-Object { $pad1 + (ConvertTo-StdJson $_ ($level + 1)) })
+        if ($items.Count -eq 0) { return '[]' }
+        return "[`n" + ($items -join ",`n") + "`n$pad]"
+    }
+    return [string]::Format([Globalization.CultureInfo]::InvariantCulture, '{0}', $v)
+}
+
 $ErrorActionPreference = 'Stop'
 try {
     $claudeDir = Join-Path $env:USERPROFILE '.claude'
@@ -54,8 +82,7 @@ try {
         $json.env | Add-Member -NotePropertyName $k -NotePropertyValue $values[$k] -Force
     }
 
-    $out = $json | ConvertTo-Json -Depth 32
-    foreach ($c in 0x27,0x26,0x3c,0x3e) { $out = $out.Replace(('\u{0:x4}' -f $c), [string][char]$c) }
+    $out = (ConvertTo-StdJson $json) + "`n"
     [IO.File]::WriteAllText($settings, $out, (New-Object Text.UTF8Encoding($false)))
     Write-Host "Da cap nhat: $settings"
     Write-Host "`nCac key da ghi vao env:" -ForegroundColor Cyan
