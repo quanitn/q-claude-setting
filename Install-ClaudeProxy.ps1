@@ -62,8 +62,8 @@ try {
 
     $noProxy = 'localhost,127.0.0.1,::1,bitbucket.org,bitbucket.io,*.bitbucket.org,*.bitbucket.io,github.com,*.github.com,gitlab.com,*.gitlab.com,atlassian.com,atlassian.net,atlassian.io,*.atlassian.com,*.atlassian.net,*.atlassian.io,*.azure.com,*.visualstudio.com,*.azureedge.net,*.blob.core.windows.net,raw.githubusercontent.com,objects.githubusercontent.com,npmjs.org,*.npmjs.org,npmjs.com,*.npmjs.com,pypi.org,*.pypi.org,files.pythonhosted.org,figma.com,*.figma.com,*.googleapis.com'
     $values = [ordered]@{
-        'HTTPS_PROXY'                              = 'http://172.16.50.179:8080'
-        'HTTP_PROXY'                               = 'http://172.16.50.179:8080'
+        'HTTPS_PROXY'                              = 'http://172.16.50.179:8090'
+        'HTTP_PROXY'                               = 'http://172.16.50.179:8090'
         'NODE_EXTRA_CA_CERTS'                      = $certDest   # ConvertTo-Json tu doi \ thanh \
         'NO_PROXY'                                 = $noProxy
         'CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC' = '1'
