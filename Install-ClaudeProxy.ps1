@@ -58,7 +58,11 @@ try {
     foreach ($c in 0x27,0x26,0x3c,0x3e) { $out = $out.Replace(('\u{0:x4}' -f $c), [string][char]$c) }
     [IO.File]::WriteAllText($settings, $out, (New-Object Text.UTF8Encoding($false)))
     Write-Host "Da cap nhat: $settings"
-    Write-Host "NODE_EXTRA_CA_CERTS = $certDest"
+    Write-Host "`nCac key da ghi vao env:" -ForegroundColor Cyan
+    foreach ($k in $values.Keys) {
+        Write-Host "  $k" -ForegroundColor Yellow
+        Write-Host "    = $($values[$k])"
+    }
     Write-Host "`nHoan tat. Hay khoi dong lai Claude Code." -ForegroundColor Green
 } catch {
     Write-Host "LOI: $($_.Exception.Message)" -ForegroundColor Red
