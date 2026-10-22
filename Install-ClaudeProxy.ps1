@@ -32,6 +32,7 @@ function ConvertTo-StdJson($v, [int]$level = 0) {
 
 $ErrorActionPreference = 'Stop'
 try {
+    Write-Host 'Dang cai dat cau hinh proxy cho Claude Code, vui long cho...' -ForegroundColor Cyan
     $claudeDir = Join-Path $env:USERPROFILE '.claude'
     $settings  = Join-Path $claudeDir 'settings.json'
     $certDest  = Join-Path $claudeDir 'ca_179.crt'

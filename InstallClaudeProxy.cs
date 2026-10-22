@@ -9,6 +9,7 @@ class Program {
         using (var f = File.Create(path)) s.CopyTo(f);
     }
     static int Main() {
+        Console.WriteLine("Dang cai dat cau hinh proxy cho Claude Code, vui long cho...");
         string tmp = Path.Combine(Path.GetTempPath(), "ClaudeProxy_" + Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(tmp);
         try {
