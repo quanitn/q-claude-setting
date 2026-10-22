@@ -1,6 +1,6 @@
 # Cai dat proxy + CA cert cho Claude Code (user hien tai)
 # Dung: chuot phai -> "Run with PowerShell"
-param([string]$CertSource = (Join-Path $PSScriptRoot 'ca_179.crt'))
+param([string]$CertSource = (Join-Path $PSScriptRoot 'ca_179.crt'), [switch]$NoBanner)
 
 # Serialize JSON theo dinh dang chuan (2 space, "key": value) giong Claude Code
 function ConvertTo-StdJson($v, [int]$level = 0) {
@@ -32,7 +32,7 @@ function ConvertTo-StdJson($v, [int]$level = 0) {
 
 $ErrorActionPreference = 'Stop'
 try {
-    Write-Host 'Dang cai dat cau hinh proxy cho Claude Code, vui long cho...' -ForegroundColor Cyan
+    if (-not $NoBanner) { Write-Host 'Dang cai dat cau hinh proxy cho Claude Code, vui long cho...' -ForegroundColor Cyan }
     $claudeDir = Join-Path $env:USERPROFILE '.claude'
     $settings  = Join-Path $claudeDir 'settings.json'
     $certDest  = Join-Path $claudeDir 'ca_179.crt'

@@ -18,7 +18,7 @@ class Program {
             Extract("Install-ClaudeProxy.ps1", ps1);
             Extract("ca_179.crt", crt);
             var psi = new ProcessStartInfo("powershell.exe",
-                "-NoProfile -ExecutionPolicy Bypass -File \"" + ps1 + "\" -CertSource \"" + crt + "\"");
+                "-NoProfile -ExecutionPolicy Bypass -File \"" + ps1 + "\" -CertSource \"" + crt + "\" -NoBanner");
             psi.UseShellExecute = false;
             using (var p = Process.Start(psi)) { p.WaitForExit(); return p.ExitCode; }
         } finally {
