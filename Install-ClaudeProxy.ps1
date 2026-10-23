@@ -61,7 +61,7 @@ try {
         $json | Add-Member -NotePropertyName env -NotePropertyValue (New-Object psobject) -Force
     }
 
-    $noProxy = 'localhost,127.0.0.1,::1,bitbucket.org,bitbucket.io,*.bitbucket.org,*.bitbucket.io,github.com,*.github.com,gitlab.com,*.gitlab.com,atlassian.com,atlassian.net,atlassian.io,*.atlassian.com,*.atlassian.net,*.atlassian.io,*.azure.com,*.visualstudio.com,*.azureedge.net,*.blob.core.windows.net,raw.githubusercontent.com,objects.githubusercontent.com,npmjs.org,*.npmjs.org,npmjs.com,*.npmjs.com,pypi.org,*.pypi.org,files.pythonhosted.org,figma.com,*.figma.com,*.googleapis.com'
+    $noProxy = 'localhost,127.0.0.1,::1,bitbucket.org,bitbucket.io,*.bitbucket.org,*.bitbucket.io,github.com,*.github.com,gitlab.com,*.gitlab.com,atlassian.com,atlassian.net,atlassian.io,*.atlassian.com,*.atlassian.net,*.atlassian.io,*.azure.com,*.visualstudio.com,*.azureedge.net,*.blob.core.windows.net,raw.githubusercontent.com,objects.githubusercontent.com,npmjs.org,*.npmjs.org,npmjs.com,*.npmjs.com,pypi.org,*.pypi.org,files.pythonhosted.org,figma.com,*.figma.com,*.googleapis.com,*.nois.vn,*.tactiq.io'
     $values = [ordered]@{
         'HTTPS_PROXY'                              = 'http://172.16.50.179:8090'
         'HTTP_PROXY'                               = 'http://172.16.50.179:8090'
